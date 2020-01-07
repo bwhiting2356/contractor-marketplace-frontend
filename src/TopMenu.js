@@ -11,7 +11,7 @@ const TopMenu = props => {
         <Menu>
             <Menu.Menu position='left'>
                 <Menu.Item>
-                    <h2>Contractor Marketplace</h2>
+                    <h2>Project Marketplace</h2>
                 </Menu.Item>
             </Menu.Menu>
             <Menu.Menu position='right'>
@@ -19,8 +19,10 @@ const TopMenu = props => {
                 { isLoggedIn && <Fragment>
                         <Menu.Item>
                             <Label>{ userRole }</Label>
-                            <Image style={{display: 'inline', height: '20px', width: '20px', margin: '0 10px'}} src={`https://i.pravatar.cc/150?img=${userId}`} circular size='mini' />
-                            { userId }
+                            <span className="hide-sm">
+                                <Image style={{display: 'inline', height: '20px', width: '20px', margin: '0 10px'}} src={`https://i.pravatar.cc/150?img=${userId}`} circular size='mini' />
+                                { userId }
+                            </span>
                         </Menu.Item>
                         <Menu.Item onClick={logout} name='log out' /> 
                     </Fragment>

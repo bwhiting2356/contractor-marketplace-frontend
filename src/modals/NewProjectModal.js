@@ -1,27 +1,28 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Label, Loader, Item, Divider } from 'semantic-ui-react';
-import { Input, Form } from 'formsy-semantic-ui-react'
+import { Form } from 'formsy-semantic-ui-react'
 import { DateInput, TimeInput } from 'semantic-ui-calendar-react';
 
 import { postNewProject, clearProjectPostingSuccess } from '../redux/actions';
+import { getCurrentFormattedTime } from '../util'
 
-const padZeros = num => {
-    const characterCount = num.toString().length;
-    const zeros = '0'.repeat(2 - characterCount);
-    return `${zeros}${num}`;
-}
+// const padZeros = num => {
+//     const characterCount = num.toString().length;
+//     const zeros = '0'.repeat(2 - characterCount);
+//     return `${zeros}${num}`;
+// }
 
-const getCurrentFormattedTime = (currentTime) => {
-    const currentHours = padZeros(currentTime.getHours());
-    const currentMinutes = padZeros(currentTime.getMinutes());
-    const currentDate = padZeros(currentTime.getDate());
-    const currentMonth = padZeros(currentTime.getMonth() + 1);
-    const currentYear = currentTime.getFullYear();
-    const formattedDay = `${currentDate}-${currentMonth}-${currentYear}`;
-    const formattedTime = `${currentHours}:${currentMinutes}`;
-    return { formattedDay, formattedTime }
-}
+// const getCurrentFormattedTime = (currentTime) => {
+//     const currentHours = padZeros(currentTime.getHours());
+//     const currentMinutes = padZeros(currentTime.getMinutes());
+//     const currentDate = padZeros(currentTime.getDate());
+//     const currentMonth = padZeros(currentTime.getMonth());
+//     const currentYear = currentTime.getFullYear();
+//     const formattedDay = `${currentDate}-${currentMonth}-${currentYear}`;
+//     const formattedTime = `${currentHours}:${currentMinutes}`;
+//     return { formattedDay, formattedTime }
+// }
 
 const errorLabel = <Label color="red" pointing/>
 
@@ -88,7 +89,7 @@ const NewProjectModal = props => {
                         </Fragment>
 
                 ) }
-                { postingNewProject && <Loader /> }
+                { postingNewProject && <Loader active={true}/> }
                 { !postingNewProject && !showProjectPostingSuccess && (
                     <Form
                     onValid={() => setButtonDisabled(false)}

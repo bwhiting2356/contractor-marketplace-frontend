@@ -4,10 +4,12 @@ import { Modal, Button, Item, Divider, Loader, Label, Icon } from 'semantic-ui-r
 import { Form } from 'formsy-semantic-ui-react'
 import { postNewBid, clearBidPostingSuccess } from '../redux/actions';
 
+import { formatCurrency } from '../util';
+
 const errorLabel = <Label color="red" pointing/>
 
 const NewBidModal = props => {
-    const {showBidPostingSuccess, postingNewBid, postNewBid, details, userId} = props;
+    const {showBidPostingSuccess, clearBidPostingSuccess, postingNewBid, postNewBid, details, userId} = props;
     const [modalOpen, setOpen] = useState(false);
     const [biddingPrice, setBiddingPrice] = useState();
     const [submitDisabled, setButtonDisabled] = useState(false);
@@ -70,7 +72,7 @@ const NewBidModal = props => {
                                 required
                                 onChange={e => setBiddingPrice(e.target.value)}
                                 validations={{ isNumeric: true, lessThanMaxPrice }}
-                                label={`Initial Bidding Price (Max: $${details.maximumBudget.toFixed(2)})`}
+                                label={`Initial Bidding Price (Max: ${formatCurrency(details.maximumBudget)})`}
                                 errorLabel={ errorLabel }
 
                                 validationErrors={{ 

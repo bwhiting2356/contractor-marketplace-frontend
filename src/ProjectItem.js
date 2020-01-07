@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { List, Item, Segment, Button, Icon, Label, Image, Grid } from 'semantic-ui-react';
+import { Item, Button, Icon, Image, Grid, Segment } from 'semantic-ui-react';
 import NewBidModal from './modals/NewBidModal';
+
+import { formatCurrency } from './util';
 
 const ProjectItem = ({ 
     id, 
@@ -15,7 +17,7 @@ const ProjectItem = ({
         const isOpen = projectStatus === 'OPEN'
         const label = {
             as: 'a',
-            color: isOpen ? 'teal' : 'red',
+            color: isOpen ? 'teal' : 'orange',
             content: isOpen ? 'Open' : 'Closed',
             icon: isOpen ? 'folder open outline' : 'folder outline',
             ribbon: true
@@ -28,20 +30,17 @@ const ProjectItem = ({
                     src={`https://picsum.photos/seed/${id}/200`} />
                 
                 <Item.Content>
-                    <Item.Header as='a'>Project Id: #{id}</Item.Header>
+                    <Item.Header as='a'>Project #{id}</Item.Header>
                     <Item.Meta floated="right">
                         Posted by {clientId}&nbsp;
-                        <Image style={{display: 'inline', height: '20px', width: '20px'}} src={`https://i.pravatar.cc/150?img=${clientId}`} circular size='mini' />
+                        <Image style={{ display: 'inline', height: '20px', width: '20px' }} src={`https://i.pravatar.cc/150?img=${clientId}`} circular size='mini' />
                     </Item.Meta>
-                    <Item.Description>
-                        {description}
-                    </Item.Description>
-                    <Item.Extra>
                         <Grid divided='vertically'>
                             <Grid.Row columns={2}>
                                 <Grid.Column>
-                                    <div>Deadline: {new Date(deadline).toLocaleString()}</div>
-                                    <div>Maximum Budget: ${maximumBudget.toFixed(2)}</div>
+                                    <div><span style={{ fontWeight: 'bold' }}>Description:</span> {description}</div>
+                                    <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{new Date(deadline).toLocaleString()}</div>
+                                    <div><span style={{ fontWeight: 'bold' }}>Maximum Budget:</span> {formatCurrency(maximumBudget)}</div>
                                 </Grid.Column>
                                 <Grid.Column>
                                 { showNewBidButton && <NewBidModal /> }
@@ -49,14 +48,11 @@ const ProjectItem = ({
                                     <Button basic floated="right">
                                         Details
                                         <Icon name='chevron right' />
-                                        
                                     </Button>
                                 </Link> }
-
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
-                    </Item.Extra>
                 </Item.Content>
             </Item>
         )

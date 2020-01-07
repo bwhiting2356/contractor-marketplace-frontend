@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom'
 
 import './App.css';
-import { Input, Icon, Container, Message } from 'semantic-ui-react'
+import { Container, Divider } from 'semantic-ui-react'
 
 import { Provider } from 'react-redux'
 // import store from './redux/store';
@@ -27,17 +27,21 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Container>
-        <TopMenu />
-        <WelcomeMessage />
-        <Router>
-          <Switch>
-            <Route exact path="/"><Redirect to="/projects"></Redirect></Route>
-            <Route exact path="/projects" component={ProjectList} />
-            <Route exact path="/project/:id" component={ProjectDetails} />
-          </Switch>
-        </Router>
-      </Container>
+      <div className="custom-container">
+        <Container>
+          <TopMenu />
+          <WelcomeMessage />
+          <Router>
+            <Switch>
+              <Route exact path="/"><Redirect to="/projects"></Redirect></Route>
+              <Route exact path="/projects" component={ProjectList} />
+              <Route exact path="/project/:id" component={ProjectDetails} />
+            </Switch>
+          </Router>
+          <Divider />
+        </Container>
+      </div>
+     
     </Provider>
   );
 }

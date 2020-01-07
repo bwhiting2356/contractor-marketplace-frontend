@@ -52,8 +52,8 @@ const LoginModal = props => {
                             }}   
                             errorLabel={ errorLabel }
                             options={[
-                                { key: 'client', value: 'CLIENT', text: 'Client' },
-                                { key: 'contractor', value: 'CONTRACTOR', text: 'Contractor' }
+                                { key: 'client', value: 'Client', text: 'Client' },
+                                { key: 'contractor', value: 'Contractor', text: 'Contractor' }
                             ]} 
                         />
                     </Form.Field>

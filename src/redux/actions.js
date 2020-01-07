@@ -15,7 +15,7 @@ import {
     CLEAR_POST_NEW_BID_SUCCESS
 } from './actionTypes';
 
-export const login = payload => ({ type: LOGIN, payload });
+export const login = ({ userId, userRole }) => ({ type: LOGIN, payload: { userId, userRole } });
 export const logout = () => ({ type: LOGOUT });
 
 export const fetchProjects = () => async dispatch => {
@@ -44,7 +44,7 @@ export const saveBids = bids => ({ type: SAVE_BIDS, payload: bids });
 
 export const postNewProject = values => async (dispatch, getState) => {
     dispatch({ type: POST_NEW_PROJECT })
-    const { userId } = getState();
+    const { userId } = getState().userReducer;
     const newProject = { ...values, clientId: userId, projectStatus: 0 }
     try {
         await fetch(`${process.env.REACT_APP_MARKETPLACE_API}/project`, {

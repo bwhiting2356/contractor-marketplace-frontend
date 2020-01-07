@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Loader, Button, Item, Icon, Breadcrumb } from 'semantic-ui-react';
+import { Container, Loader, Item } from 'semantic-ui-react';
 
 import { fetchProjects } from './redux/actions';
 import ProjectItem from './ProjectItem';
@@ -16,7 +16,6 @@ const ProjectList = props => {
     return (
         <Container>
             { isClient && <NewProjectModal /> }
- 
             <Loader active={fetching}/>
             <Item.Group divided>
                 { projects.map(project => <ProjectItem key={project.id} {...project} showDetailsButton/>)}

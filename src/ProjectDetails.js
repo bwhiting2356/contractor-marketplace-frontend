@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import ProjectItem from './ProjectItem';
 import { fetchProjectDetail, fetchBids } from './redux/actions';
-import { Loader, Item, Container, Button, Icon, Table, Header, Image, Divider, Message } from 'semantic-ui-react';
+import { Loader, Item, Container, Button, Icon, Table, Header, Image, Divider, Message, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { userRoles } from './redux/projectsReducer';
+
+import { formatCurrency } from './util';
 
 const ProjectDetails = props => {
     let { id } = useParams();
@@ -17,7 +19,8 @@ const ProjectDetails = props => {
         bids,
         fetchProjectDetail,
         fetchBids,
-        isContractor
+        isContractor,
+        isClient
     } = props;
    
     useEffect(() => {
@@ -31,15 +34,15 @@ const ProjectDetails = props => {
             <Link to="/projects"><Button basic><Icon name='chevron left' />Back to Projects</Button></Link>
             <Item.Group divided>
                 <Loader active={detailsFetching}/>
-                { details.id && <ProjectItem { ...details } showNewBidButton={isContractor}/>}
+                { details.id && <ProjectItem { ...details } showNewBidButton={isContractor && details.projectStatus === 'OPEN'}/>}
             </Item.Group>
                 <Divider />
                 <Loader active={bidsFetching}/>
                 {
                     bids.length > 0 && (
                         <Fragment>
-                            <Header as='h2' icon textAlign='center'>
-                                <Icon name='inbox' circular />
+                            <Header as='h3' icon textAlign='center'>
+                                <Icon name='inbox' circular size="small"/>
                                 <Header.Content>Bids</Header.Content>
                             </Header>
                             <Table celled>
@@ -51,7 +54,7 @@ const ProjectDetails = props => {
                                 </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
-                                    { bids && bids.map(({ id, contractorId, price, date }) => (
+                                    { bids && bids.map(({ id, contractorId, initialPrice, finalPrice, date, win }) => (
                                         <Table.Row key={id}>
                                             <Table.Cell>
                                                 <Header as='h4' image>
@@ -59,7 +62,14 @@ const ProjectDetails = props => {
                                                     <Header.Content>{ contractorId }</Header.Content>
                                                 </Header>
                                             </Table.Cell>
-                                            <Table.Cell textAlign="right">${price.toFixed(2)}</Table.Cell>
+                                            
+                                            <Table.Cell textAlign="right">
+                                                { win && <Label floated="left">
+                                                    <Icon name='star' />
+                                                    Winning Bid
+                                                </Label> }
+                                                &nbsp;{finalPrice ? formatCurrency(finalPrice) : formatCurrency(initialPrice) }
+                                            </Table.Cell>
                                             <Table.Cell textAlign="right">{ new Date(date).toLocaleString() }</Table.Cell>
                                         </Table.Row>
                                     ))}
@@ -68,7 +78,12 @@ const ProjectDetails = props => {
                         </Fragment>
                     )
                 }
-                { bids.length == 0 && !bidsFetching && <Message>There have been no bids yet for this project.</Message>}
+                { bids.length == 0 && !bidsFetching && (
+                    <Fragment>
+                        <Message>There have been no bids yet for this project.</Message>
+                        { isClient && <Message info><i>Log in as a contractor to bid.</i></Message> }
+                    </Fragment>
+                )}
            
         </Container>
         
@@ -78,6 +93,7 @@ const ProjectDetails = props => {
 const mapStateToProps = state => ({
     bids: state.projectDetailsReducer.bids,
     details: state.projectDetailsReducer.details,
+    isClient: state.userReducer.userRole === userRoles.CLIENT,
     isContractor: state.userReducer.userRole === userRoles.CONTRACTOR,
     bidsFetching: state.projectDetailsReducer.bidsFetching.bidsFetching,
     detailsFetching: state.projectDetailsReducer.bidsFetching.detailsFetching

@@ -1,7 +1,6 @@
 import {
     FETCH_PROJECTS,
     SAVE_PROJECTS,
-    LOGOUT,
     POST_NEW_PROJECT,
     POST_NEW_PROJECT_SUCCESS,
     CLEAR_POST_NEW_PROJECT_SUCCESS,
@@ -26,8 +25,6 @@ const projectsReducer = (state = initialState, action) => {
             return { ...state, fetching: true }
         case SAVE_PROJECTS:
             return { ...state, fetching: false, projects: action.payload }
-        case LOGOUT: 
-            return { ...state, userId: '', userType: undefined }
         case POST_NEW_PROJECT:
             return { ...state, postingNewProject: true }
         case POST_NEW_PROJECT_SUCCESS:
