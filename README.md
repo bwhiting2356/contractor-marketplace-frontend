@@ -2,6 +2,8 @@
 
 This is the front end repo for the contractor-project marketplace app. The corresponding backend repo is [here](https://github.com/bwhiting2356/contractor-marketplace-backend)
 
+The app is deployed [here](https://project-marketplace-9c29a.firebaseapp.com/)
+
 ### Instructions
 
 To install the project, run `npm install` then `npm start`

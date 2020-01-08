@@ -5,6 +5,7 @@ import {
     FETCH_BIDS,
     POST_NEW_BID,
     POST_NEW_BID_SUCCESS,
+    POST_NEW_BID_ERROR,
     CLEAR_POST_NEW_BID_SUCCESS
 } from "./actionTypes";
 
@@ -14,6 +15,7 @@ const initialProjectDetailsState = {
     bids: [],
     bidsFetching: true,
     postingNewBid: false,
+    error: undefined,
     showBidPostingSuccess: false,
 }
 const projectDetailsReducer = (state = initialProjectDetailsState, action) => {
@@ -30,6 +32,9 @@ const projectDetailsReducer = (state = initialProjectDetailsState, action) => {
             return { ...state, postingNewBid: true };
         case POST_NEW_BID_SUCCESS:
             return { ...state, postingNewBid: false, showBidPostingSuccess: true };
+        case POST_NEW_BID_ERROR:
+            return { ...state, postingNewBid: false, error: true }
+        
         case CLEAR_POST_NEW_BID_SUCCESS:
             return { ...state, showBidPostingSuccess: false }
         default:

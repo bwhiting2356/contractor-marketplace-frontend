@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Item, Button, Icon, Image, Grid } from 'semantic-ui-react';
 import moment from 'moment';
 
 import NewBidModal from './modals/NewBidModal';
+import TimeRemaining from './TimeRemaining';
 import { formatCurrency } from './util';
 
 const ProjectItem = ({ 
@@ -12,17 +13,26 @@ const ProjectItem = ({
     deadline, 
     maximumBudget, 
     clientId, 
-    projectStatus,
     showNewBidButton = false, 
     showDetailsButton = false }) => {
-        const isOpen = projectStatus === 'OPEN'
+        const timeDifference = new Date(deadline) - new Date();
+        const [expired, setExpired] = useState(timeDifference < 0);
+
+        useEffect(() => {
+            const timer = setTimeout(() => {
+                setExpired(true);
+            }, timeDifference);
+            return () => clearTimeout(timer);
+        });
+
         const label = {
-            as: 'a',
-            color: isOpen ? 'teal' : 'orange',
-            content: isOpen ? 'Open' : 'Closed',
-            icon: isOpen ? 'folder open outline' : 'folder outline',
+            as: 'span',
+            color: !expired ? 'teal' : 'orange',
+            content: !expired ? 'Open' : 'Closed',
+            icon: !expired ? 'folder open outline' : 'folder outline',
             ribbon: true
         }
+
         return (
             <Item key={id}>
                 <Item.Image
@@ -40,17 +50,19 @@ const ProjectItem = ({
                             <Grid.Row columns={2}>
                                 <Grid.Column>
                                     <div><span style={{ fontWeight: 'bold' }}>Description:</span> {description}</div>
-                                    <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{moment(deadline).format('MMMM Do YYYY, h:mm a')}</div>
                                     <div><span style={{ fontWeight: 'bold' }}>Maximum Budget:</span> {formatCurrency(maximumBudget)}</div>
+                                    <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{moment(deadline).format('MMMM Do YYYY, h:mm a')}</div>
+                                    <TimeRemaining deadline={deadline}/>
                                 </Grid.Column>
                                 <Grid.Column>
-                                { showNewBidButton && <NewBidModal /> }
+                                { !expired && showNewBidButton && <NewBidModal /> }
                                 { showDetailsButton && <Link to={`project/${id}`}>
-                                    <Button basic floated="right">
-                                        Details
-                                        <Icon name='chevron right' />
-                                    </Button>
-                                </Link> }
+                                        <Button basic floated="right">
+                                            Details
+                                            <Icon name='chevron right' />
+                                        </Button>
+                                    </Link> 
+                                }
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

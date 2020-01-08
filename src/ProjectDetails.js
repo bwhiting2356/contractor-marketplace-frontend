@@ -24,18 +24,21 @@ const ProjectDetails = props => {
         isContractor,
         isClient
     } = props;
-   
+
+    const timeDifference = new Date(details.deadline) - new Date();
+    const expired = timeDifference < 0;
+
     useEffect(() => {
-        fetchProjectDetail(id)
+        fetchProjectDetail(id);
         fetchBids(id);
-    }, [id]);
+    }, [id, fetchProjectDetail, fetchBids]);
 
     return (
         <Container>
             <Link to="/projects"><Button basic><Icon name='chevron left' />Back to Projects</Button></Link>
             <Item.Group divided>
                 <Loader active={detailsFetching}/>
-                { details.id && <ProjectItem { ...details } showNewBidButton={isContractor && details.projectStatus === 'OPEN'}/>}
+                { details.id && <ProjectItem { ...details } showNewBidButton={isContractor && !expired}/>}
             </Item.Group>
                 <Divider />
                 <Loader active={bidsFetching}/>

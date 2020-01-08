@@ -15,10 +15,8 @@
   .hide-sm {
     display: none;
   }
-
 }
 
-a.ui.label {
-  cursor: default;
+span.ui.label {
   transform: translatex(10px);
 }

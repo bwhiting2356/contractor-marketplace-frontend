@@ -13,7 +13,9 @@ import {
     POST_NEW_BID,
     POST_NEW_BID_SUCCESS,
     CLEAR_POST_NEW_BID_SUCCESS,
-    CHECK_LOCAL_CREDENTIALS
+    CHECK_LOCAL_CREDENTIALS,
+    POST_NEW_BID_ERROR,
+    POST_NEW_PROJECT_ERROR
 } from './actionTypes';
 
 // export const logout = () => ({ type: LOGOUT });
@@ -77,6 +79,7 @@ export const postNewProject = values => async (dispatch, getState) => {
         dispatch(fetchProjects());
 
     } catch (e) {
+        dispatch({ type: POST_NEW_PROJECT_ERROR, payload: e })
         console.log(e);
     }
 }
@@ -94,6 +97,7 @@ export const postNewBid = values => async dispatch => {
         dispatch(fetchBids(values.projectId))
 
     } catch (e) {
+        dispatch({ type: POST_NEW_BID_ERROR, payload: e })
         console.log(e);
     }
 

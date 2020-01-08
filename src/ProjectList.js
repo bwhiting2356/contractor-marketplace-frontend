@@ -11,7 +11,7 @@ const ProjectList = props => {
     const { fetchProjects, fetching, projects, isClient } = props;
     useEffect(() => {
         fetchProjects()
-    }, [])
+    }, [fetchProjects])
 
     return (
         <Container>

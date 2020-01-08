@@ -10,7 +10,7 @@ const TopMenu = props => {
     
     useEffect(() => {
         checkLocalCredentials();
-    },[]);
+    },[checkLocalCredentials]);
 
     return (
         <Menu>
