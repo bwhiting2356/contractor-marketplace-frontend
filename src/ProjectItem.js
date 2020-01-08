@@ -52,7 +52,7 @@ const ProjectItem = ({
                                     <div><span style={{ fontWeight: 'bold' }}>Description:</span> {description}</div>
                                     <div><span style={{ fontWeight: 'bold' }}>Maximum Budget:</span> {formatCurrency(maximumBudget)}</div>
                                     <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{moment(deadline).format('MMMM Do YYYY, h:mm a')}</div>
-                                    <TimeRemaining deadline={deadline}/>
+                                    { !expired && <TimeRemaining deadline={deadline}/> }
                                 </Grid.Column>
                                 <Grid.Column>
                                 { !expired && showNewBidButton && <NewBidModal /> }

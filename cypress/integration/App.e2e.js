@@ -1,7 +1,7 @@
 describe('App E2E', () => {
     it('should assert that true is equal to true', () => {
         // Log in as Client
-        cy.visit('http://localhost:3000');
+        cy.visit('https://project-marketplace-9c29a.firebaseapp.com/');
         cy.get('#login').click();
         cy.get('input[name="id"]').type('Josie');
         cy.get('.ui.selection.dropdown').click();
