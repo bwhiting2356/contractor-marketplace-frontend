@@ -19,7 +19,7 @@ const LoginModal = props => {
     return (
         <Modal
             centered={false}
-            trigger={<Menu.Item name='log in' />}>
+            trigger={<Menu.Item id="login" name='log in' />}>
             <Modal.Header>Log In</Modal.Header>
             <Modal.Content>
                 <Message><i>This marketplace operates on the honor system. There is no authentication/authorization...</i></Message>

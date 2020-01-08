@@ -6,14 +6,15 @@ import { postNewBid, clearBidPostingSuccess } from '../redux/actions';
 
 import { formatCurrency } from '../util';
 
-const errorLabel = <Label color="red" pointing/>
+import ErrorLabel from './ErrorLabel';
 
 const NewBidModal = props => {
     const {showBidPostingSuccess, clearBidPostingSuccess, postingNewBid, postNewBid, details, userId} = props;
     const [modalOpen, setOpen] = useState(false);
     const [biddingPrice, setBiddingPrice] = useState();
     const [submitDisabled, setButtonDisabled] = useState(false);
-
+    
+    // custom validators
     const lessThanMaxPrice = (_, value) => value <= details.maximumBudget;
     const lessThanBiddingPrice = (_, value) => {
         if (value) {
@@ -22,6 +23,7 @@ const NewBidModal = props => {
             return true;
         }
     }
+    const isPositive = (_, value) => value > 0;
 
     const handleSubmit = ({price, min}) => {
         const newBid = {
@@ -43,7 +45,7 @@ const NewBidModal = props => {
             open={modalOpen}
             onClose={closeSuccessModal}
             centered={false}
-            trigger={(<Button primary icon floated='right' onClick={() => setOpen(true)} primary>New Bid&nbsp;<Icon name="plus"/></Button>)}>
+            trigger={(<Button primary icon floated='right' onClick={() => setOpen(true)}>New Bid&nbsp;<Icon name="plus"/></Button>)}>
             <Modal.Header>New Bid</Modal.Header>
             <Modal.Content>
                 { showBidPostingSuccess &&
@@ -71,12 +73,13 @@ const NewBidModal = props => {
                                 type='text'
                                 required
                                 onChange={e => setBiddingPrice(e.target.value)}
-                                validations={{ isNumeric: true, lessThanMaxPrice }}
+                                validations={{ isNumeric: true, lessThanMaxPrice, isPositive }}
                                 label={`Initial Bidding Price (Max: ${formatCurrency(details.maximumBudget)})`}
-                                errorLabel={ errorLabel }
+                                errorLabel={ErrorLabel}
 
                                 validationErrors={{ 
                                     isDefaultRequiredValue: 'Bidding price is required', 
+                                    isPositive: 'Number must be positive',
                                     isNumeric: 'Please enter a valid number.',
                                     lessThanMaxPrice: 'Price can\'t be higher than the project\'s maximum.' }}
                                 placeholder="What will you charge to take on this project?">
@@ -89,11 +92,12 @@ const NewBidModal = props => {
                                 name="min"
                                 labelPosition='left'
                                 type='text'
-                                validations={{ isNumeric: true, lessThanBiddingPrice }}
+                                validations={{ isNumeric: true, lessThanBiddingPrice, isPositive }}
                                 label="Minimum Price (Optional)"
-                                errorLabel={ errorLabel }
+                                errorLabel={ErrorLabel}
                                 validationErrors={{ 
                                     isNumeric: 'Please enter a valid number.',
+                                    isPositive: 'Number must be positive',
                                     lessThanBiddingPrice: 'Your minimum price cannot be greater than your bidding price.'
                                 }}
                                 placeholder="What is the lowest price you'll accept for this job?">

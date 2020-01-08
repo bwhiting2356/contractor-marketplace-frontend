@@ -1,15 +1,13 @@
 import React from 'react';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import { Container, Divider } from 'semantic-ui-react';
 
 import './App.css';
-import { Container, Divider } from 'semantic-ui-react'
 
-import { Provider } from 'react-redux'
-// import store from './redux/store';
 import reducers from './redux/store'
-
 import ProjectList from './ProjectList';
 import ProjectDetails from './ProjectDetails';
 import TopMenu from './TopMenu';
@@ -19,12 +17,11 @@ const store = createStore(
   reducers, 
   compose(
       applyMiddleware(thunk), 
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
 const App = () => {
-
   return (
     <Provider store={store}>
       <div className="custom-container">
@@ -41,7 +38,6 @@ const App = () => {
           <Divider />
         </Container>
       </div>
-     
     </Provider>
   );
 }

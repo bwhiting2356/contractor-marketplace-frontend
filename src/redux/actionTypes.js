@@ -9,6 +9,7 @@ export const SAVE_BIDS = 'SAVE_BIDS';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const CHECK_LOCAL_CREDENTIALS = 'CHECK_LOCAL_CREDENTIALS';
 
 export const POST_NEW_PROJECT = 'POST_NEW_PROJECT';
 export const POST_NEW_PROJECT_SUCCESS = 'POST_NEW_PROJECT_SUCCESS';

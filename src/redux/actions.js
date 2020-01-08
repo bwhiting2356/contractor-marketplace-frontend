@@ -12,11 +12,32 @@ import {
     SAVE_BIDS,
     POST_NEW_BID,
     POST_NEW_BID_SUCCESS,
-    CLEAR_POST_NEW_BID_SUCCESS
+    CLEAR_POST_NEW_BID_SUCCESS,
+    CHECK_LOCAL_CREDENTIALS
 } from './actionTypes';
 
-export const login = ({ userId, userRole }) => ({ type: LOGIN, payload: { userId, userRole } });
-export const logout = () => ({ type: LOGOUT });
+// export const logout = () => ({ type: LOGOUT });
+
+export const login = ({ userId, userRole }) => dispatch => {
+    dispatch({ type: LOGIN, payload: { userId, userRole } });
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userRole', userRole);
+}
+
+export const logout = () => dispatch => {
+    dispatch({ type: LOGOUT });
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
+}
+
+export const checkLocalCredentials = () => dispatch => {
+    dispatch({ type: CHECK_LOCAL_CREDENTIALS });
+    const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
+    if (userId && userRole) {
+        dispatch({ type: LOGIN, payload: { userId, userRole } });
+    }
+}
 
 export const fetchProjects = () => async dispatch => {
     dispatch({ type: FETCH_PROJECTS })

@@ -8,7 +8,7 @@ import {
     CLEAR_POST_NEW_BID_SUCCESS
 } from "./actionTypes";
 
-const initialState = {
+const initialProjectDetailsState = {
     details: {},
     detailsFetching: false,
     bids: [],
@@ -16,7 +16,7 @@ const initialState = {
     postingNewBid: false,
     showBidPostingSuccess: false,
 }
-const projectDetailsReducer = (state = initialState, action) => {
+const projectDetailsReducer = (state = initialProjectDetailsState, action) => {
     switch (action.type) {
         case FETCH_PROJECT_DETAILS:
             return { ...state, detailsFetching: true }
@@ -32,8 +32,9 @@ const projectDetailsReducer = (state = initialState, action) => {
             return { ...state, postingNewBid: false, showBidPostingSuccess: true };
         case CLEAR_POST_NEW_BID_SUCCESS:
             return { ...state, showBidPostingSuccess: false }
+        default:
+            return { ...state };
     }
-    return state;
 }
 
 export default projectDetailsReducer;

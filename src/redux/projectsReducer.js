@@ -11,15 +11,14 @@ export const userRoles = {
     CONTRACTOR: 'Contractor'
 }
 
-const initialState = {
+export const initialProjectsState = {
     projects: [],
     fetching: true,
     postingNewProject: false,
     showProjectPostingSuccess: false,
 }
 
-
-const projectsReducer = (state = initialState, action) => {
+const projectsReducer = (state = initialProjectsState, action) => {
     switch (action.type) {
         case FETCH_PROJECTS:
             return { ...state, fetching: true }

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Item, Button, Icon, Image, Grid, Segment } from 'semantic-ui-react';
-import NewBidModal from './modals/NewBidModal';
+import { Item, Button, Icon, Image, Grid } from 'semantic-ui-react';
+import moment from 'moment';
 
+import NewBidModal from './modals/NewBidModal';
 import { formatCurrency } from './util';
 
 const ProjectItem = ({ 
@@ -39,7 +40,7 @@ const ProjectItem = ({
                             <Grid.Row columns={2}>
                                 <Grid.Column>
                                     <div><span style={{ fontWeight: 'bold' }}>Description:</span> {description}</div>
-                                    <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{new Date(deadline).toLocaleString()}</div>
+                                    <div><span style={{ fontWeight: 'bold' }}>Deadline: </span>{moment(deadline).format('MMMM Do YYYY, h:mm a')}</div>
                                     <div><span style={{ fontWeight: 'bold' }}>Maximum Budget:</span> {formatCurrency(maximumBudget)}</div>
                                 </Grid.Column>
                                 <Grid.Column>

@@ -1,11 +1,11 @@
 import { LOGIN, LOGOUT } from './actionTypes';
 
-const initialState = {
-    userId: 'abc',
-    userRole: 'Contractor',
+export const initialUserState = {
+    userId: '',
+    userRole: undefined
 }
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = initialUserState, action) => {
     switch (action.type) {
         case LOGOUT:
             return { ...state, userId: '', userRole: undefined };

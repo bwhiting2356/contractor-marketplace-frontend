@@ -8,7 +8,7 @@ import NewProjectModal from './modals/NewProjectModal';
 import { userRoles } from './redux/projectsReducer';
 
 const ProjectList = props => {
-    const { fetchProjects, fetching, projects, isContractor, isClient } = props;
+    const { fetchProjects, fetching, projects, isClient } = props;
     useEffect(() => {
         fetchProjects()
     }, [])

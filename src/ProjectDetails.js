@@ -1,13 +1,15 @@
 import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom'
-import ProjectItem from './ProjectItem';
-import { fetchProjectDetail, fetchBids } from './redux/actions';
 import { Loader, Item, Container, Button, Icon, Table, Header, Image, Divider, Message, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { userRoles } from './redux/projectsReducer';
+
+import moment from 'moment';
 
 import { formatCurrency } from './util';
+import { userRoles } from './redux/projectsReducer';
+import { fetchProjectDetail, fetchBids } from './redux/actions';
+import ProjectItem from './ProjectItem';
 
 const ProjectDetails = props => {
     let { id } = useParams();
@@ -29,7 +31,6 @@ const ProjectDetails = props => {
     }, [id]);
 
     return (
-        
         <Container>
             <Link to="/projects"><Button basic><Icon name='chevron left' />Back to Projects</Button></Link>
             <Item.Group divided>
@@ -70,7 +71,7 @@ const ProjectDetails = props => {
                                                 </Label> }
                                                 &nbsp;{finalPrice ? formatCurrency(finalPrice) : formatCurrency(initialPrice) }
                                             </Table.Cell>
-                                            <Table.Cell textAlign="right">{ new Date(date).toLocaleString() }</Table.Cell>
+                                            <Table.Cell textAlign="right">{ moment(date).format('MMMM Do YYYY, h:mm a') }</Table.Cell>
                                         </Table.Row>
                                     ))}
                                 </Table.Body>
@@ -78,15 +79,13 @@ const ProjectDetails = props => {
                         </Fragment>
                     )
                 }
-                { bids.length == 0 && !bidsFetching && (
+                { bids.length === 0 && !bidsFetching && (
                     <Fragment>
                         <Message>There have been no bids yet for this project.</Message>
                         { isClient && <Message info><i>Log in as a contractor to bid.</i></Message> }
                     </Fragment>
                 )}
-           
         </Container>
-        
     )
 }
 

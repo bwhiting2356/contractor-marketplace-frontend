@@ -1,12 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Menu, Image, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { logout } from './redux/actions';
+import { logout, checkLocalCredentials } from './redux/actions';
 
 import LoginModal from './modals/LoginModal';
 
 const TopMenu = props => {
-    const { isLoggedIn, logout, userId, userRole } = props;
+    const { isLoggedIn, logout, userId, userRole, checkLocalCredentials } = props;
+    
+    useEffect(() => {
+        checkLocalCredentials();
+    },[]);
+
     return (
         <Menu>
             <Menu.Menu position='left'>
@@ -24,7 +29,7 @@ const TopMenu = props => {
                                 { userId }
                             </span>
                         </Menu.Item>
-                        <Menu.Item onClick={logout} name='log out' /> 
+                        <Menu.Item id="logout" onClick={logout} name='log out' /> 
                     </Fragment>
                 }
                 { !isLoggedIn && <LoginModal />}
@@ -39,6 +44,6 @@ const mapStateToProps = state => ({
     userRole: state.userReducer.userRole
 })
 
-const mapDispatchToProps = { logout }
+const mapDispatchToProps = { logout, checkLocalCredentials }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
